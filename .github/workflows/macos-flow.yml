@@ -9,6 +9,6 @@ jobs:
       - run: ioreg -l | grep -m 1 board-id
       - run: nvram 4D1EDE05-38C7-4A6A-9CC6-4BCCA8B38C14:MLB
       - run: nvram 4D1EDE05-38C7-4A6A-9CC6-4BCCA8B38C14:ROM
-      - run: ioreg -l -p IODeviceTree | grep \"system-id
+      - run: 'ioreg -l -p IODeviceTree | grep \"system-id'
       - run: csrutil status
      
