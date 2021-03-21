@@ -1,0 +1,12 @@
+name: Ubuntu Info
+on: 
+  schedule:
+    - cron: '0 16 * * *'
+
+jobs:
+  print-details:
+    runs-on: ubuntu-latest
+    steps:
+      - run: uname -a
+      - run: sudo lshw
+      - run: lscpu
