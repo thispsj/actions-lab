@@ -1,7 +1,5 @@
 name: Ubuntu Info
-on: 
-  schedule:
-    - cron: '0 16 * * *'
+on: push
 
 jobs:
   print-details:
