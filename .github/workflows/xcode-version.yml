@@ -6,4 +6,4 @@ jobs:
     runs-on: macos-latest
     steps:
       - run: xcode-select -p
-      - run: xcrun -find xcode
+      - run: xcrun -find xcodebuild
