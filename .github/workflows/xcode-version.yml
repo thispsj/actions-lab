@@ -1,0 +1,9 @@
+name: Print Xcode Version
+on: push
+
+jobs:
+  print-version:
+    runs-on: macos-latest
+    steps:
+      - run: xcode-select -p
+      - run: xcrun -find xcode
