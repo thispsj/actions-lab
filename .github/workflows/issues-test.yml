@@ -1,0 +1,9 @@
+name: Issues Test
+on: issues
+
+jobs:
+  workon:
+    runs-on: ubuntu-latest
+    name: Success.
+    steps:
+      - run: echo '"Issue Received"'
