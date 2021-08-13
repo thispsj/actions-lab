@@ -1,7 +1,7 @@
 name: Update branches on GH Docs Repo Pulls
 on:
   schedule:
-    - cron: ' 10,30,50 * * * * '
+    - cron: '*/20 * * * *'
     
 jobs:
   update-branch:
