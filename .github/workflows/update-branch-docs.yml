@@ -1,0 +1,28 @@
+name: Update branches on GH Docs Repo Pulls
+on:
+  schedule:
+    - cron: ' 10,30,50 * * * * '
+    
+jobs:
+  update-branch:
+    runs-on: ubuntu-latest
+    if: secrets.run == true
+    strategy:
+      matrix:
+        number: [8982]
+    
+    steps:
+      - name: Update Branch to latest base ref
+        uses: octokit/request-action@v2.x
+        id: update-pullbranch-api
+        with:
+          route: PUT /repos/{owner}/{repo}/pulls/{pull_number}/update-branch
+          owner: github
+          repo: docs
+          pull_number: ${{ matrix.number }}
+          mediaType: '{"previews":["lydian"]}'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GHPAT }} # expires on 3rd Jan 22. please remember to refresh.
+
+  
+  
