@@ -13,7 +13,7 @@ jobs:
     steps:
       - name: Output ok to stdout
         id: run-or-not
-        run: echo "::set-output name=go-ahead::ok"
+        run: echo "::set-output name=go-ahead::no"
       - name: Get Pull Request
         uses: octokit/request-action@v2.x
         id: get-pull
