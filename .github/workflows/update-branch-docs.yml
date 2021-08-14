@@ -18,7 +18,7 @@ jobs:
           route: GET repos/{owner}/{repo}/contents/{path}
           owner: thispsj
           repo: actions-lab
-          path: .github/action-files/commitsha
+          path: ".github/action-files/commitsha"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Get docs main sha
