@@ -24,7 +24,7 @@ jobs:
           repo: docs
           pull_number: ${{ matrix.number }}
         env:
-          GITHUB_TOKEN: ${{ secrets.GHPAT }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Update Branch to latest base ref
         if: ${{ steps.run-or-not.outputs.go-ahead == 'ok' && fromJSON(steps.get-pull.outputs.data).head.sha != fromJSON(steps.get-pull.outputs.data).base.sha }}
         uses: octokit/request-action@v2.x
