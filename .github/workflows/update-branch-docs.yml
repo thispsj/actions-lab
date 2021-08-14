@@ -6,13 +6,27 @@ on:
 jobs:
   update-branch:
     runs-on: ubuntu-latest
-    if: ${{ secrets.run }} == true
     strategy:
       matrix:
         number: [8982]
     
     steps:
+      - name: Output ok to stdout
+        id: run-or-not
+        run: echo "::set-output name=go-ahead::ok"
+      - name: Get Pull Request
+        uses: octokit/request-action@v2.x
+        id: get-pull
+        if: ${{ steps.run-or-not.outputs.go-ahead == 'ok' }}
+        with:
+          route: GET /repos/{owner}/{repo}/pulls/{pull_number}
+          owner: github
+          repo: docs
+          pull_number: ${{ matrix.number }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GHPAT }}
       - name: Update Branch to latest base ref
+        if: ${{ steps.run-or-not.outputs.go-ahead == 'ok' && fromJSON(steps.get-pull.outputs.data).head.sha != fromJSON(steps.get-pull.outputs.data).base.sha }}
         uses: octokit/request-action@v2.x
         id: update-pullbranch-api
         with:
