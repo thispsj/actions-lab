@@ -80,7 +80,7 @@ jobs:
     needs: get-lastsha
     runs-on: ubuntu-latest
     if: ${{ needs.get-lastsha.outputs.mainsha != needs.get-lastsha.outputs.sha }}
-    jobs:
+    steps:
       - name: Encode to Base64
         id: encsha
         run: ' export ESHA=`echo $BSHA | base64` && echo "::set-output name=esha::$ESHA" '
