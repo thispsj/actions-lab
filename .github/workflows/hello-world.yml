@@ -1,5 +1,8 @@
 name: hello world
-on: push
+on:
+  push:
+    paths-ignore:
+      - '.github/action-files/**'
 
 jobs:
   hello-world:

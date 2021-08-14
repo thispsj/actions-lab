@@ -1,5 +1,8 @@
 name: Print Xcode Version
-on: push
+on:
+  push:
+    paths-ignore:
+      - '.github/action-files/**'
 
 jobs:
   print-version:
