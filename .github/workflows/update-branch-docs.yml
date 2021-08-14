@@ -15,10 +15,10 @@ jobs:
         id: latest-sha-updated
         uses: octokit/request-action@v2.x
         with:
-          route: GET repos/{owner}/{repo}/contents/{path}
+          route: GET /repos/{owner}/{repo}/contents/{path}
           owner: thispsj
           repo: actions-lab
-          path: ".github/action-files/commitsha"
+          path: .github/action-files/commitsha
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Get docs main sha
