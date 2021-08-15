@@ -1,7 +1,7 @@
 name: Update branches on GH Docs Repo Pulls
 on:
   schedule:
-    - cron: '*/20 * * * *'
+    - cron: '*/15 * * * *'
     
 jobs:
   get-lastsha:
@@ -24,7 +24,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        number: [8982]
+        number: [8982,9045]
     steps:
       - name: Output ok to stdout
         id: run-or-not
