@@ -7,20 +7,8 @@ jobs:
   get-lastsha:
     runs-on: ubuntu-latest
     outputs:
-      sha: ${{ steps.raw-file.outputs.file }}
-      filesha: ${{ steps.file-sha.outputs.filesha }}
       mainsha: ${{ fromJSON(steps.main-sha.outputs.data).commit.sha }}
     steps:
-      - name: Get latest Commit sha according to actions.
-        id: latest-sha-updated
-        uses: octokit/request-action@v2.x
-        with:
-          route: GET /repos/{owner}/{repo}/contents/{path}
-          owner: thispsj
-          repo: actions-lab
-          path: .github/action-files/commitsha
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Get docs main sha
         id: main-sha
         uses: octokit/request-action@v2.x
@@ -31,18 +19,6 @@ jobs:
           branch: main
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Set File SHA
-        id: file-sha
-        run: echo "::set-output name=filesha::$FSHA"
-        env:
-          FSHA: ${{ fromJSON(steps.latest-sha-updated.outputs.data).sha }}
-      - name: Get the raw file.
-        id: raw-file
-        run: ' export FILE=`echo $ENCFILE | base64 -d` && echo "::set-output name=file::$FILE" '
-        env:
-          ENCFILE: ${{ fromJSON(steps.latest-sha-updated.outputs.data).content }}
-        
-  
   update-branch:
     needs: get-lastsha
     runs-on: ubuntu-latest
@@ -65,7 +41,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Update Branch to latest base ref
-        if: ${{ steps.run-or-not.outputs.go-ahead == 'ok' && needs.get-lastsha.outputs.sha != fromJSON(steps.get-pull.outputs.data).base.sha }}
+        if: ${{ steps.run-or-not.outputs.go-ahead == 'ok' && needs.get-lastsha.outputs.mainsha != fromJSON(steps.get-pull.outputs.data).base.sha }}
         uses: octokit/request-action@v2.x
         id: update-pullbranch-api
         with:
@@ -76,28 +52,5 @@ jobs:
           mediaType: '{"previews":["lydian"]}'
         env:
           GITHUB_TOKEN: ${{ secrets.GHPAT }} # expires on 3rd Jan 22. please remember to refresh.
-  update-sha:
-    needs: get-lastsha
-    runs-on: ubuntu-latest
-    if: ${{ needs.get-lastsha.outputs.mainsha != needs.get-lastsha.outputs.sha }}
-    steps:
-      - name: Encode to Base64
-        id: encsha
-        run: ' export ESHA=`echo $BSHA | base64` && echo "::set-output name=esha::$ESHA" '
-        env:
-          BSHA: ${{ needs.get-lastsha.outputs.mainsha }}
-      - name: Update File
-        uses: octokit/request-action@v2.x
-        with:
-          route: PUT /repos/{owner}/{repo}/contents/{path}
-          owner: thispsj
-          repo: actions-lab
-          path: .github/action-files/commitsha
-          message: Update Base branch SHA
-          sha: ${{ needs.get-lastsha.outputs.filesha }}
-          content: ${{ steps.encsha.outputs.esha }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
   
   
