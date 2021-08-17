@@ -1,7 +1,7 @@
 name: Update branches on GH Docs Repo Pulls
 on:
   schedule:
-    - cron: '*/15 * * * *'
+    - cron: '20,35,50,05 * * * *'
     
 jobs:
   get-lastsha:
