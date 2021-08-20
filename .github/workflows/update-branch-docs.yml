@@ -41,7 +41,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Update Branch to latest base ref
-        if: ${{ steps.run-or-not.outputs.go-ahead == 'ok' && needs.get-lastsha.outputs.mainsha != fromJSON(steps.get-pull.outputs.data).base.sha }}
+        if: ${{ steps.run-or-not.outputs.go-ahead == 'ok' && needs.get-lastsha.outputs.mainsha != fromJSON(steps.get-pull.outputs.data).base.sha && fromJSON(steps.get-pull.outputs.data).state == 'open' }}
         uses: octokit/request-action@v2.x
         id: update-pullbranch-api
         with:
