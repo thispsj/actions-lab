@@ -24,7 +24,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        number: [9126,9119]
+        number: [9126,9119,9319]
     steps:
       - name: Output ok to stdout
         id: run-or-not
