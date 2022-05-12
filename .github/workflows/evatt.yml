@@ -1,8 +1,0 @@
-name: Attend some event
-on: 
-  workflow-dispatch:
-    inputs:
-      link:
-        description: Link of the event
-        required: true
-        default: 
