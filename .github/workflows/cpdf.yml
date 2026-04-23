@@ -1,0 +1,16 @@
+name: PDF Compressor
+on:
+  workflow_dispatch:
+
+jobs:
+  compress:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - run: 'choco install cpdf && cpdf -decrypt-force -squeeze scan.pdf -o scanc.pdf'
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: my-artifact
+          path: scanc.pdf
